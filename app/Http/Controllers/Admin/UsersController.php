@@ -57,6 +57,7 @@ class UsersController extends Controller
     public function destroy($id)
     {
         $user = $this->user->byId($id);
+        
         $user->delete();
         return redirect()->route('admin.users');
     }

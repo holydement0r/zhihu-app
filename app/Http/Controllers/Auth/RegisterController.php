@@ -60,14 +60,14 @@ class RegisterController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'avatar' => '/images/avatars/elliot.jpg',
+            'avatar' => '/images/avatars/wallhaven.jpg',
             'confirmation_token' => str_random(40),
             'password' => bcrypt($data['password']),
             'api_token'=>str_random(60),
             'setting'=> ['city'=>'','site'=>'','github'=>'','bio'=>'']
         ]);
         $user->assignRole('member');
-//        $this->sendVerifyEmailTo($user);
+        // $this->sendVerifyEmailTo($user);
         return $user;
     }
 

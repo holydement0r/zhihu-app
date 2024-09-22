@@ -45,7 +45,7 @@
                     <tr>
                         <td>
                             <a style="font-size: 16px;padding: 4px;" href="/admin/users/{{$user->id}}" class="ui button"><i class="fa fa-fw fa-pencil" title="修改"></i></a>
-                            <form href="/users/{{$user->id}}" method="post" class="delete-form action-btn" style="display: inline-block">
+                            <form action="/admin/users/{{$user->id}}" method="post" class="delete-form action-btn" style="display: inline-block">
                                 {{method_field('DELETE')}}
                                 {!! csrf_field() !!}
                             <button style="font-size: 16px;color: #dd4b39;padding: 4px" class="ui button">

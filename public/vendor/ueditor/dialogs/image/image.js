@@ -373,7 +373,7 @@
                 server: actionUrl,
                 fileVal: editor.getOpt('imageFieldName'),
                 duplicate: true,
-                fileSingleSizeLimit: imageMaxSize,    // 默认 2 M
+                fileSingleSizeLimit: imageMaxSize,    // 默认 10 M
                 compress: editor.getOpt('imageCompressEnable') ? {
                     width: imageCompressBorder,
                     height: imageCompressBorder,
@@ -412,7 +412,7 @@
                     $prgress = $li.find('p.progress span'),
                     $wrap = $li.find('p.imgWrap'),
                     $info = $('<p class="error"></p>').hide().appendTo($li),
-
+                    
                     showError = function (code) {
                         switch (code) {
                             case 'exceed_size':
@@ -435,7 +435,9 @@
                     };
 
                 if (file.getStatus() === 'invalid') {
+
                     showError(file.statusText);
+                    
                 } else {
                     $wrap.text(lang.uploadPreview);
                     if (browser.ie && browser.version <= 7) {

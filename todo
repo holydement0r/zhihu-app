@@ -1,0 +1,6 @@
+/app/zhihu/app/Http/Controllers/Auth/RegisterController.php
+发送邮件注释掉了
+
+/app/zhihu/app/Repositories/Admin/AdminRepository.php
+一堆空
+
