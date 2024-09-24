@@ -29,7 +29,7 @@ class TopicsController extends Controller
     //删除标签
     public function destroy($id)
     {
-        $comment = $this->comment->byId($id);
+        $comment = $this->topic->byId($id);
         $comment->delete();
         return redirect()->route('admin.topics');
     }

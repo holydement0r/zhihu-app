@@ -22,14 +22,21 @@ class QuestionRepository
     public function normalizeTopics(array $topics)
     {
         return collect($topics)->map(function ($topic) {
-            if (is_numeric($topic)) {
-                Topic::find($topic)->increment('questions_count');
-                return (int)$topic;
+            // 无论输入是数字还是字符串，都作为话题名称处理
+            $existingTopic = Topic::where('name', $topic)->first();
+
+            if ($existingTopic) {
+                // 如果话题已存在，增加计数
+                $existingTopic->increment('questions_count');
+                return $existingTopic->id;
             }
+
+            // 如果话题不存在，则创建新话题
             $newTopic = Topic::create(['name' => $topic, 'questions_count' => 1]);
             return $newTopic->id;
         })->toArray();
     }
+
 
     public function byId($id)
     {

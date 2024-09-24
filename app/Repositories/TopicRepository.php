@@ -12,7 +12,7 @@ class TopicRepository
     protected $topic;
 
 
-    public function getTopicsForTagging(Request $request)
+    public function getTopicsForTagging(Request $request) //根据用户输入的查询字符串（q）从数据库中查找匹配的主题
     {
         $topics = Topic::select(['id', 'name'])
             ->where('name', 'like', '%' . $request
@@ -23,5 +23,10 @@ class TopicRepository
     public function getTopicsFeed()
     {
         return Topic::all();
+    }
+
+    public function byId($id)
+    {
+        return Topic::find($id);
     }
 }

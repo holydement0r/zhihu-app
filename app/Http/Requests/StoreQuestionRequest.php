@@ -34,6 +34,7 @@ class StoreQuestionRequest extends FormRequest
         return [
             'title.required'=>'标题不能为空',
             'title.min'=>'标题不能少于6个字符',
+            'title.max'=>'标题不能多于200个字符',
             'body.required'=>'内容不能为空',
             'body.min'=>'内容不能少于26个字符',
         ];
