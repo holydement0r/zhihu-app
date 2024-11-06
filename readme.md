@@ -79,3 +79,6 @@
 > php artisan create:admin
 
 填写完指令要求信息后 管理员创建成功
+
+创建邮箱服务
+https://www.cnblogs.com/laowenBlog/p/12771715.html

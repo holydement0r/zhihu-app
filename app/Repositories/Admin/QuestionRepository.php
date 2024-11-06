@@ -28,10 +28,16 @@ class QuestionRepository
     public function normalizeTopics(array $topics)
     {
         return collect($topics)->map(function ($topic) {
-            if (is_numeric($topic)) {
-                Topic::find($topic)->increment('questions_count');
-                return (int)$topic;
+            // 查找现有话题
+            $existingTopic = Topic::where('name', $topic)->first();
+    
+            if ($existingTopic) {
+                // 增加计数
+                $existingTopic->increment('questions_count');
+                return $existingTopic->id; // 返回 ID
             }
+    
+            // 创建新话题并返回 ID
             $newTopic = Topic::create(['name' => $topic, 'questions_count' => 1]);
             return $newTopic->id;
         })->toArray();

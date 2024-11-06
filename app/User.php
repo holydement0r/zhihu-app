@@ -140,9 +140,11 @@ class User extends Authenticatable
         return $this->hasMany(Message::class,'to_user_id');
     }
 
+
     //发送密码重置
     public function sendPasswordResetNotification($token)
     {
-        (new UserMailer())->passwordReset($this->email,$token);
+        $userMailer = app(UserMailer::class);
+        $userMailer->passwordReset($this->email, $token);
     }
 }

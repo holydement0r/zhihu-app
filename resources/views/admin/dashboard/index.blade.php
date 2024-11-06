@@ -33,39 +33,45 @@
         </div>
 
         <div class="row">
-            <section class="col-lg-7 connectedSortable">
-                <div class="box box-info">
-                    <div class="box-header">
-                        <i class="fa fa-envelope"></i>
-
-                        <h3 class="box-title">发送邮件</h3>
-                        <div class="pull-right box-tools">
-                            <button type="button" class="btn btn-info btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove">
-                                <i class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <form action="#" method="post">
-                            <div class="form-group">
-                                <input type="email" class="form-control" name="emailto" placeholder="Email to:">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="subject" placeholder="Subject">
-                            </div>
-                            <div>
-                                <textarea class="textarea" placeholder="Message" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="box-footer clearfix">
-                        <button type="button" class="pull-right btn btn-default" id="sendEmail">Send
-                            <i class="fa fa-arrow-circle-right"></i></button>
+        <section class="col-lg-7 connectedSortable">
+            <div class="box box-info">
+                <div class="box-header">
+                    <i class="fa fa-envelope"></i>
+                    <h3 class="box-title">发送邮件</h3>
+                    <div class="pull-right box-tools">
+                        <!-- <button type="button" class="btn btn-info btn-sm" data-widget="remove" data-toggle="tooltip" title="Remove">
+                            <i class="fa fa-times"></i></button> -->
                     </div>
                 </div>
-            </section>
+                <div class="box-body">
+                    <form action="{{ route('email.send') }}" method="post" enctype="multipart/form-data">
+                        {!! csrf_field() !!} <!-- 使用 csrf_field() -->
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="emailto" placeholder="Email to:" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+                        </div>
+                        <div>
+                            <textarea class="textarea" name="message" placeholder="Message" style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="file" name="attachment" class="form-control" accept="*/*"> <!-- 附件输入 -->
+                        </div>
+                        <div class="box-footer clearfix">
+                            <button type="submit" class="pull-right btn btn-default">
+                                Send <i class="fa fa-arrow-circle-right"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
 
-            <section class="col-lg-5 connectedSortable">
-                <!-- Info Boxes Style 2 -->
+
+
+            <!-- <section class="col-lg-5 connectedSortable">
+
                 <div class="info-box bg-yellow">
                     <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
 
@@ -80,9 +86,9 @@
                     50% Increase in 30 Days
                   </span>
                     </div>
-                    <!-- /.info-box-content -->
+
                 </div>
-                <!-- /.info-box -->
+
                 <div class="info-box bg-green">
                     <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
 
@@ -97,9 +103,9 @@
                     20% Increase in 30 Days
                   </span>
                     </div>
-                    <!-- /.info-box-content -->
+
                 </div>
-                <!-- /.info-box -->
+
                 <div class="info-box bg-red">
                     <span class="info-box-icon"><i class="ion ion-ios-cloud-download-outline"></i></span>
 
@@ -114,9 +120,9 @@
                     70% Increase in 30 Days
                   </span>
                     </div>
-                    <!-- /.info-box-content -->
+
                 </div>
-                <!-- /.info-box -->
+
                 <div class="info-box bg-aqua">
                     <span class="info-box-icon"><i class="ion-ios-chatbubble-outline"></i></span>
 
@@ -131,9 +137,9 @@
                     40% Increase in 30 Days
                   </span>
                     </div>
-                    <!-- /.info-box-content -->
+
                 </div>
-            </section>
+            </section> -->
         </div>
     </section>
 @endsection

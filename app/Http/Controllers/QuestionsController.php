@@ -38,18 +38,30 @@ class QuestionsController extends Controller
     //创建问题
     public function store(StoreQuestionRequest $request)
     {
+        // 获取传递的主题名称
+        $topicNames = explode(',', $request->get('topics'));
 
-        $topics = $this->questionRepository->normalizeTopics($request->get('topics'));
+        // 处理并规范化主题
+        $topics = $this->questionRepository->normalizeTopics($topicNames);
+
+        // 准备问题数据
         $data = [
             'title' => $request->get('title'),
             'body' => $request->get('body'),
             'user_id' => Auth::id(),
         ];
+
+        // 创建问题
         $question = $this->questionRepository->create($data);
         Auth::user()->increment('questions_count');
+
+        // 将主题 ID 与问题关联
         $question->topics()->attach($topics);
+        
+        // 重定向到问题显示页面
         return redirect()->route('questions.show', [$question->id]);
     }
+    
 
     //显示问题
     public function show($id)
@@ -72,16 +84,29 @@ class QuestionsController extends Controller
     //问题更新
     public function update(StoreQuestionRequest $request, $id)
     {
+        // 获取问题实例
         $question = $this->questionRepository->byId($id);
-        $topics = $this->questionRepository->normalizeTopics($request->get('topics'));
+        
+        // 检查问题是否存在
+        if (!$question) {
+            return redirect()->route('questions.index')->with('error', '问题不存在');
+        }
+    
+        // 从请求中获取话题 ID 数组
+        $topics = $request->get('topics'); // 确保此处获取的是 ID 数组
+    
+        // 更新问题内容
         $question->update([
             'title' => $request->get('title'),
             'body' => $request->get('body'),
         ]);
-
-        $question->topics()->sync($topics);
+    
+        // 同步话题
+        $question->topics()->sync($topics); // 这里使用 sync 可以确保与话题的关系被正确更新
+    
         return redirect()->route('questions.show', [$question->id]);
     }
+    
 
     //删除问题
     public function destroy($id)

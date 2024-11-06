@@ -10,8 +10,7 @@
                         <div class="question-panel-main">
                             <div class="question-panel-topics">
                                 @foreach($question->topics as $topic)
-                                <a class="topic" >{{$topic->name}}</a>
-                                <!-- <a class="topic" href="/topic/{{$topic->id}}">{{$topic->name}}</a> -->
+                                    <a class="topic" href="/topic/{{$topic->id}}">{{$topic->name}}</a>
                                 @endforeach
                             </div>
                             <h1 class="question-panel-title">
@@ -65,7 +64,8 @@
                             </div>
                             <div class="">
                                 <question-follow-button question="{{$question->id}}"></question-follow-button>
-                                <a href="#editor" class="btn btn-primary pull-right write-answer">
+                                <!-- 撰写答案按钮 -->
+                                <a href="javascript:void(0);" class="btn btn-primary pull-right write-answer" id="write-answer-btn">
                                     撰写答案
                                 </a>
                             </div>
@@ -77,6 +77,52 @@
     </div>
     <div class="container">
         <div class="row">
+            <!-- 隐藏的答案输入框 -->
+            <div id="answer-form" class="hidden">
+                <div class="col-md-8 col-md-offset-1">
+                    <div class="panel panel-default">
+                        @if(Auth::check())
+                            <div class="panel-heading">
+                                <div class="answer-info-panel">
+                                    <div class="answer-info-avatar">
+                                        <img src="{{\Auth::user()->avatar}}">
+                                    </div>
+                                    <div class="answer-content">{{\Auth::user()->name}}</div>
+                                </div>
+                            </div>
+                        @endif
+                        <div class="panel-body">
+                            @if(Auth::check())
+                                <form action="/questions/{{$question->id}}/answer" method="post">
+                                    {!! csrf_field() !!}
+                                    <div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
+                                        <div id="container" name="body" type="text/plain" style="height:200px;">
+                                            {!! old('body') !!}
+                                        </div>
+                                        @if ($errors->has('body'))
+                                            <span class="help-block">
+                                            <strong>{{ $errors->first('body') }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
+                                    <button type="submit" class="ui button teal pull-right">提交答案</button>
+                                </form>
+                            @else
+                                <a href="/login" class="btn btn-success btn-block">登录提交答案</a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <style>
+                .hidden {
+                    display: none;
+                }
+                #answer-form {
+                    margin-top: 20px;
+                }
+            </style>
 
             <div class="col-md-8 col-md-offset-1">
                 <div class="panel panel-default">
@@ -98,18 +144,9 @@
                                                 {{$answer->user->name}}
                                             </a>
                                         </h4>
-                                        @php
-                                            $text = strip_tags($answer->body, '<img>'); // 去除所有标签，保留图片标签
-                                        @endphp
                                         <div class="answer-item-content">
-                                            {!! $text !!}
+                                            {!! $answer->body !!}
                                         </div>
-                                        <style>
-                                            .answer-item-content img {
-                                                max-width: 20% !important; /* 图片最大宽度不超过容器宽度 */
-                                                height: auto !important; /* 保持图片高度按比例调整 */
-                                            }
-                                        </style>
                                     </div>
                                     <div class="answer-item-time">
                                         发布于 {{$answer->created_at->format('Y-m-d')}}
@@ -127,8 +164,8 @@
                                         <!-- <div class="answer-item-action">
                                             <i class="fa fa-paper-plane fa-icon-sm"></i>
                                             分享
-                                        </div> -->
-                                        <!-- <div class="answer-item-action">
+                                        </div>
+                                        <div class="answer-item-action">
                                             <i class="fa fa-ellipsis-h"></i>
                                         </div> -->
                                     </div>
@@ -200,72 +237,39 @@
                 </div>
             </div>
 
-            <div class="col-md-8 col-md-offset-1">
-                <div class="panel panel-default">
-                    @if(Auth::check())
-                        <div class="panel-heading">
-                            <div class="answer-info-panel">
-                                <div class="answer-info-avatar">
-                                    <img src="{{\Auth::user()->avatar}}">
-                                </div>
-                                <div class="answer-content">{{\Auth::user()->name}}</div>
-                            </div>
-                        </div>
-                    @endif
-                    <div class="panel-body">
-                        @if(Auth::check())
-                            <form action="/questions/{{$question->id}}/answer" method="post">
-                                {!! csrf_field() !!}
-                                <div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
-                                    <div id="container" name="body" type="text/plain" style="height:200px;">
-                                        {!! old('body') !!}
-                                    </div>
-                                    @if ($errors->has('body'))
-                                        <span class="help-block">
-                                        <strong>{{ $errors->first('body') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                                <button type="submit" class="ui button teal pull-right">提交答案</button>
-                            </form>
-                        @else
-                            <a href="/login" class="btn btn-success btn-block">登录提交答案</a>
-                        @endif
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
 @section('js')
     <script>
-        var ue = UE.getEditor('container', {
-            toolbars: [
-                ['bold', 'italic', 'underline', 'strikethrough', 'blockquote', 'insertunorderedlist', 'insertorderedlist', 'justifyleft', 'justifycenter', 'justifyright', 'link', 'insertimage', 'fullscreen']
-            ],
-            elementPathEnabled: false,
-            enableContextMenu: false,
-            autoClearEmptyNode: true,
-            wordCount: false,
-            imagePopup: false,
-            autotypeset: {indent: true, imageBlockLine: 'center'}
-        });
-        ue.ready(function () {
-            ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
-        });
-        window.onload = function() {
-            var images = document.querySelectorAll('.answer-item-content img');
-            images.forEach(function(img) {
-                img.style.maxWidth = '100%';
-                img.style.height = 'auto';
-            });
-            var elements = document.querySelectorAll('.answer-item-content');
-            elements.forEach(function(element) {
-                // 修改字体大小、颜色、字体族等
-                element.style.fontSize = '16px';   // 修改字体大小
-                element.style.fontFamily = 'Arial, sans-serif'; // 修改字体族
-                element.style.lineHeight = '1.6';  // 修改行高
-            });
-        };
+    // 页面加载时初始化编辑器
+var ue = UE.getEditor('container', {
+    toolbars: [
+        ['bold', 'italic', 'underline', 'strikethrough', 'blockquote', 'insertunorderedlist', 'insertorderedlist', 'justifyleft', 'justifycenter', 'justifyright', 'link', 'insertimage', 'fullscreen']
+    ],
+    elementPathEnabled: false,
+    enableContextMenu: false,
+    autoClearEmptyNode: true,
+    wordCount: false,
+    imagePopup: false,
+    autotypeset: { indent: true, imageBlockLine: 'center' }
+});
+
+// 设置 CSRF token
+ue.ready(function () {
+    ue.execCommand('serverparam', '_token', '{{ csrf_token() }}');
+    // 在编辑器初始化后隐藏表单
+    document.getElementById('answer-form').classList.add('hidden');
+});
+
+// 点击按钮显示输入框
+document.getElementById('write-answer-btn').addEventListener('click', function() {
+    var form = document.getElementById('answer-form');
+    form.classList.remove('hidden'); // 显示输入框
+    // 滚动到输入框部分
+    form.scrollIntoView({ behavior: 'smooth' });
+});
+    
     </script>
 @endsection
 @endsection

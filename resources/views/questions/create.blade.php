@@ -23,6 +23,7 @@
                                 <select name="topics[]" class="js-example-placeholder-multiple js-data-example-ajax form-control" multiple="multiple">
                                     <option value="AL"></option>
                                     <option value="WY"></option>
+                                    <input type="hidden" name="topics" />
                                 </select>
                             </div>
 
@@ -126,11 +127,17 @@
         }
 
         // 验证话题
-        var topics = $('.js-example-placeholder-multiple').val();
-        if (!topics || topics.length === 0) {
+        var selectedTopics = $('.js-example-placeholder-multiple').select2('data').map(function (item) {
+            return item.text; // 获取文本内容
+        });
+
+        // 验证话题
+        if (selectedTopics.length === 0) {
             isValid = false;
             displayError('topics', '请选择至少一个话题');
         } else {
+            // 将话题内容以逗号分隔存储到一个隐藏字段中
+            $('input[name="topics"]').val(selectedTopics.join(','));
             clearError('topics');
         }
 

@@ -128,7 +128,7 @@
             $(".js-example-placeholder-multiple").select2({
                 tags: true,
                 placeholder: '选择相关话题',
-                minimumInputLength: 2,
+                minimumInputLength: 0,
                 ajax: {
                     url: '/api/topics',
                     dataType: 'json',

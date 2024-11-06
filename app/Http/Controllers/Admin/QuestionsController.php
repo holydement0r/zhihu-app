@@ -36,6 +36,7 @@ class QuestionsController extends Controller
     public function store(Request $request)
     {
         $topics = $this->question->normalizeTopics($request->get('topics'));
+        // file_put_contents("./log", var_export($request,true), FILE_APPEND);
         $data = [
             'title' => $request->get('title'),
             'body' => $request->get('body'),

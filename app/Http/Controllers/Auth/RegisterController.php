@@ -23,15 +23,17 @@ class RegisterController extends Controller
      * @var string
      */
     protected $redirectTo = '/login';
+    protected $userMailer;
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserMailer $userMailer)
     {
         $this->middleware('guest');
+        $this->userMailer = $userMailer;
     }
 
     /**
@@ -67,7 +69,7 @@ class RegisterController extends Controller
             'setting'=> ['city'=>'','site'=>'','github'=>'','bio'=>'']
         ]);
         $user->assignRole('member');
-        // $this->sendVerifyEmailTo($user);
+        $this->sendVerifyEmailTo($user);
         return $user;
     }
 
@@ -75,6 +77,6 @@ class RegisterController extends Controller
     public function sendVerifyEmailTo($user)
     {
         // 模板变量
-        (new UserMailer())->welcome($user);
+        $this->userMailer->welcome($user);
     }
 }

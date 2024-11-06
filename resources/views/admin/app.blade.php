@@ -23,7 +23,7 @@
                     </li>
 
                     <!-- Messages: style can be found in dropdown.less-->
-                    <li class="dropdown messages-menu">
+                    <!-- <li class="dropdown messages-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-envelope-o"></i>
                             <span class="label label-success">4</span>
@@ -31,9 +31,9 @@
                         <ul class="dropdown-menu">
                             <li class="header">你有4条私信</li>
                             <li>
-                                <!-- inner menu: contains the actual data -->
+
                                 <ul class="menu">
-                                    <li><!-- start message -->
+                                    <li>
                                         <a href="#">
                                             <div class="pull-left">
                                                 <img src="{{url('dist/img/person.png')}}" class="img-circle"
@@ -46,15 +46,15 @@
                                             <p>Why not buy a new awesome theme?</p>
                                         </a>
                                     </li>
-                                    <!-- end message -->
+                                    
                                 </ul>
                             </li>
                             <li class="footer"><a href="#">查看所有消息</a></li>
                         </ul>
-                    </li>
+                    </li> -->
 
                     <!-- Notifications: style can be found in dropdown.less -->
-                    <li class="dropdown notifications-menu">
+                    <!-- <li class="dropdown notifications-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-bell-o"></i>
                             <span class="label label-warning">10</span>
@@ -62,7 +62,7 @@
                         <ul class="dropdown-menu">
                             <li class="header">你有10条消息通知</li>
                             <li>
-                                <!-- inner menu: contains the actual data -->
+                               
                                 <ul class="menu">
                                     <li>
                                         <a href="#">
@@ -73,7 +73,7 @@
                             </li>
                             <li class="footer"><a href="#">查看所有</a></li>
                         </ul>
-                    </li>
+                    </li> -->
 
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -106,10 +106,16 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">个人资料</a>
+                                    <a href="/setting" class="btn btn-default btn-flat">个人资料</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">退出</a>
+                                    <a href="{{ url('/logout') }}" 
+                                        onclick="event.preventDefault();document.getElementById('logout-form').submit();" 
+                                        class="btn btn-default btn-flat">退出</a>
+                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST"
+                                          style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
                                 </div>
                             </li>
                         </ul>
@@ -167,8 +173,8 @@
                     <ul class="treeview-menu">
                         <li><a href="{{url('/admin/profile')}}"><i class="fa fa-circle-o"></i>管理员</a></li>
                         <li><a href="{{url('/admin/users')}}"><i class="fa fa-circle-o"></i>系统用户</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i>用户角色</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i>用户权限</a></li>
+                        <!-- <li><a href="#"><i class="fa fa-circle-o"></i>用户角色</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i>用户权限</a></li> -->
                     </ul>
                 </li>
 
@@ -188,7 +194,7 @@
                 </li>
 
 
-                <li class="treeview">
+                <!-- <li class="treeview">
                     <a href="#">
                         <i class="fa fa-table"></i> <span>表格统计</span>
                         <span class="pull-right-container">
@@ -199,24 +205,24 @@
                         <li><a href="#"><i class="fa fa-circle-o"></i>用户表格</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i>文章表格</a></li>
                     </ul>
-                </li>
+                </li> -->
 
                 <li class="treeview">
-                    <a href="#">
+                    <a href="{{url('/admin/mail/index')}}">
                         <i class="fa fa-envelope"></i>
                         <span>邮件分发</span>
-                        <span class="pull-right-container">
+                        <!-- <span class="pull-right-container">
                              <i class="fa fa-angle-left pull-right"></i>
-                        </span>
+                        </span> -->
                     </a>
-                    <ul class="treeview-menu">
+                    <!-- <ul class="treeview-menu">
                         <li><a href="#"><i class="fa fa-circle-o"></i>订阅邮件</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i>注册成功</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i>会员到期</a></li>
-                    </ul>
+                    </ul> -->
                 </li>
 
-                <li class="treeview">
+                <!-- <li class="treeview">
                     <a href="#">
                         <i class="fa fa-folder"></i> <span>页面实例</span>
                         <span class="pull-right-container">
@@ -232,29 +238,21 @@
                         <li><a href="#"><i class="fa fa-circle-o"></i> Blank Page</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i> Pace Page</a></li>
                     </ul>
-                </li>
+                </li> -->
 
-                <li><a href="#"><i class="fa fa-book"></i> <span>网站文档</span></a></li>
+                <!-- <li><a href="#"><i class="fa fa-book"></i> <span>网站文档</span></a></li> -->
 
-                <li class="header">LABELS</li>
+                <!-- <li class="header">LABELS</li>
                 <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
                 <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-                <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li> -->
             </ul>
         </section>
     </aside>
 @endsection
 
 {{--底部--}}
-@section('main-footer')
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 2.3.12
-        </div>
-        <strong>Copyright &copy; 2014-2017 <a href="https://github.com/GeekGhc" target="_blank">JellyBean</a></strong> All rights
-        reserved.
-    </footer>
-@endsection
+
 
 {{--右侧边栏--}}
 @section('control-sidebar')
@@ -269,106 +267,7 @@
         <div class="tab-content">
             <!-- Home tab content -->
             <div class="tab-pane" id="control-sidebar-home-tab">
-                <h3 class="control-sidebar-heading">最近活动</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="javascript:void(0)">
-                            <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
-                            <div class="menu-info">
-                                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                                <p>Will be 23 on April 24th</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)">
-                            <i class="menu-icon fa fa-user bg-yellow"></i>
-
-                            <div class="menu-info">
-                                <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
-
-                                <p>New phone +1(800)555-1234</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)">
-                            <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
-
-                            <div class="menu-info">
-                                <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
-
-                                <p>nora@example.com</p>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)">
-                            <i class="menu-icon fa fa-file-code-o bg-green"></i>
-
-                            <div class="menu-info">
-                                <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
-
-                                <p>Execution time 5 seconds</p>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-                <!-- /.control-sidebar-menu -->
-
-                <h3 class="control-sidebar-heading">任务进度</h3>
-                <ul class="control-sidebar-menu">
-                    <li>
-                        <a href="javascript:void(0)">
-                            <h4 class="control-sidebar-subheading">
-                                Custom Template Design
-                                <span class="label label-danger pull-right">70%</span>
-                            </h4>
-
-                            <div class="progress progress-xxs">
-                                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)">
-                            <h4 class="control-sidebar-subheading">
-                                Update Resume
-                                <span class="label label-success pull-right">95%</span>
-                            </h4>
-
-                            <div class="progress progress-xxs">
-                                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)">
-                            <h4 class="control-sidebar-subheading">
-                                Laravel Integration
-                                <span class="label label-warning pull-right">50%</span>
-                            </h4>
-
-                            <div class="progress progress-xxs">
-                                <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)">
-                            <h4 class="control-sidebar-subheading">
-                                Back End Framework
-                                <span class="label label-primary pull-right">68%</span>
-                            </h4>
-
-                            <div class="progress progress-xxs">
-                                <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                
                 <!-- /.control-sidebar-menu -->
 
             </div>

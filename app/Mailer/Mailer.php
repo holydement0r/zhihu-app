@@ -8,14 +8,20 @@ use Naux\Mail\SendCloudTemplate;
 
 class Mailer
 {
-    public function sendTo($template,$email,array $data)
+    public function sendTo($subject,$email,array $data,$template='mail.verify_template', $attachments = [])
     {
-        $content = new SendCloudTemplate($template, $data);
 
-        Mail::raw($content, function ($message)  use($email){
-            $message->from('1050967012@qq.com', 'JellyBean');
-
-            $message->to($email);
+        // file_put_contents("./log",var_export($data,true));
+        Mail::send($template, $data, function ($message) use ($email, $subject, $attachments) {
+            $message->from(env('MAIL_USERNAME'), 'joker');
+            $message->to($email)->subject($subject);
+            // 添加附件
+            foreach ($attachments as $attachment) {
+                $message->attach($attachment['path'], [
+                    'as' => $attachment['name'], // 附件原始名称
+                    'mime' => $attachment['mime'], // 附件 MIME 类型
+                ]);
+            }
         });
     }
 }

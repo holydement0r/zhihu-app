@@ -13,13 +13,16 @@
 
 Route::get('/','QuestionsController@index');
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index');
 
 
 //邮件的验证
 Route::get('/email/verify/{token}',['as'=>'email.verify','uses'=>'EmailController@verify']);
+
+//发邮件
+Route::post('/email/send',['as'=>'email.send','uses'=>'EmailController@send']);
 
 //问题的创建和显示视图
 Route::resource('questions','QuestionsController',['names'=>[
@@ -57,6 +60,7 @@ Route::get("/people/{userName}/like",'ProfileController@like')->name('like');//�
 Route::get("/people/{userName}/followers",'ProfileController@followers')->name('followers');//用户的个人主页
 Route::get("/people/{userName}/following",'ProfileController@following')->name('following');//用户的个人主页
 
+Route::get('/admin/mail/index', 'EmailController@index')->name('admin.mail');
 
 
 Route::group(['namespace' => 'Admin'], function () {
@@ -80,4 +84,7 @@ Route::group(['namespace' => 'Admin'], function () {
 
     Route::get('/admin/topics/index','TopicsController@index')->name('admin.topics');//标签列表
     Route::delete('/admin/topic/{id}','TopicsController@destroy');//删除标签
+    
+
+
 });

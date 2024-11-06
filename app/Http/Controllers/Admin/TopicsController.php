@@ -15,10 +15,18 @@ class TopicsController extends Controller
         $this->middleware('admin');
     }
     //标签列表
-    public function index()
+    public function index(Request $request)
     {
-        $topics =  $this->topic->getTopicsFeed();
-        return view('admin.topics.index',compact('topics'));
+        $keyword = $request->input('s_title');
+        $topics = $this->topic->getTopicsFeed();
+    
+        if ($keyword) {
+            $topics = $topics->filter(function ($topic) use ($keyword) {
+                return stripos($topic->name, $keyword) !== false; // 根据名称进行搜索
+            });
+        }
+    
+        return view('admin.topics.index', compact('topics'));
     }
 
     public function store()
